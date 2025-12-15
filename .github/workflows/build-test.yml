@@ -29,7 +29,7 @@ jobs:
           IMAGE_NAME="${IMAGE_NAME:-oldschool-demo-image-florian_schaefermeier}"
 
           # Erwartete Nachricht anpassen:
-          EXPECTED_MESSAGE="OldSchool GmbH – automatischer Build erfolgreich! (Yeah es klappt)"
+          EXPECTED_MESSAGE="OldSchool GmbH – automatischer Build erfolgreich!"
 
           output=$(docker run "${IMAGE_NAME}")
           echo "Container output: $output"
