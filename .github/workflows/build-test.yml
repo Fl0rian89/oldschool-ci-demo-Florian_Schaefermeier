@@ -24,15 +24,17 @@ jobs:
           docker build -t "${IMAGE_NAME}" .
 
       - name: Run container and test output
-  run: |
-    IMAGE_NAME="${IMAGE_NAME:-oldschool-ci-demo-florian-schaefermeier}"
-    EXPECTED_MESSAGE="OldSchool GmbH – automatischer Build erfolgreich! ( Yeah es hat geklappt!)"
-    output=$(docker run "${IMAGE_NAME}")
-    echo "Container output: $output"
-    
-    if [ "$output" != "$EXPECTED_MESSAGE" ]; then
-      echo "Test fehlgeschlagen!"
-      exit 1
-    fi
-    
-    echo "Test erfolgreich – Ausgabe stimmt."
+        run: |
+          IMAGE_NAME="${IMAGE_NAME:-oldschool-ci-demo-florian-schaefermeier}"
+          EXPECTED_MESSAGE="OldSchool GmbH – automatischer Build erfolgreich! ( Yeah es hat geklappt!)"
+
+          output=$(docker run "${IMAGE_NAME}")
+          echo "Container output: $output"
+
+          if [ "$output" != "$EXPECTED_MESSAGE" ]; then
+            echo "Test fehlgeschlagen!"
+            exit 1
+          fi
+
+          echo "Test erfolgreich – Ausgabe stimmt."
+
