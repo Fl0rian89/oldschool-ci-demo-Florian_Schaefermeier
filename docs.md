@@ -9,3 +9,5 @@
 3. Was war für dich das schwerste an der Augabe?
  - Habe sehr lange gebraucht mein fehler zu finden das ich zuviele " benutzt habe.
    
+
+-> 	„Meine Pipeline läuft bei push und bei pull_request auf main.“
