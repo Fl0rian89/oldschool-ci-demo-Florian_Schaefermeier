@@ -1,0 +1,42 @@
+name: Build and Test Docker Image
+
+on:
+  push:
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Repo auschecken
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Docker installieren (auf ubuntu-latest schon vorhanden, hier explizit als Schritt)
+      - name: Ensure Docker is available
+        run: docker version
+
+      # 3) Docker-Image bauen (eindeutiger Name)
+      - name: Build Docker image
+        run: |
+          IMAGE_NAME="oldschool-demo-image-<Florian_Schaefermeier>"
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
+          docker build -t "${IMAGE_NAME}" .
+
+      # 4 + 5) Container starten & Ausgabe testen
+      - name: Run container and test output
+        run: |
+          IMAGE_NAME="${IMAGE_NAME:-oldschool-demo-image-<Florian_Schaefermeier>}"
+
+          # Erwartete Nachricht anpassen:
+          EXPECTED_MESSAGE="OldSchool GmbH – automatischer Build erfolgreich! (Yeah es hat geklappt!)"
+
+          output=$(docker run "${IMAGE_NAME}")
+          echo "Container output: $output"
+
+          if [ "$output" != "$EXPECTED_MESSAGE" ]; then
+            echo "Test fehlgeschlagen!"
+            exit 1
+          fi
+
+          echo "Test erfolgreich – Ausgabe stimmt."
