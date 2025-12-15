@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build and Test Docker Image
 
 on:
   push:
@@ -17,20 +17,26 @@ jobs:
         run: docker version
 
       # 3) Docker-Image bauen (eindeutiger Name)
+      - name: Build Docker image
+        run: |
+          IMAGE_NAME="oldschool-demo-image-<Florian_Schaefermeier>"
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
+          docker build -t "${IMAGE_NAME}" .
 
-
+      # 4 + 5) Container starten & Ausgabe testen
       - name: Run container and test output
         run: |
-          IMAGE_NAME="${IMAGE_NAME:-oldschool-ci-demo-florian-schaefermeier}"
-          EXPECTED_MESSAGE="OldSchool GmbH – automatischer Build erfolgreich! ( Yeah es hat geklappt!)"
+          IMAGE_NAME="${IMAGE_NAME:-oldschool-demo-image-<Florian_Schaefermeier>}"
+
+          # Erwartete Nachricht anpassen:
+          EXPECTED_MESSAGE="OldSchool GmbH – automatischer Build erfolgreich! (<Yeah es klappt>)"
 
           output=$(docker run "${IMAGE_NAME}")
           echo "Container output: $output"
 
           if [ "$output" != "$EXPECTED_MESSAGE" ]; then
-            echo "Test fehlgeschlagen!"
+            echo "❌ Test fehlgeschlagen!"
             exit 1
           fi
 
-          echo "Test erfolgreich – Ausgabe stimmt."
-
+          echo "✅ Test erfolgreich – Ausgabe stimmt."
