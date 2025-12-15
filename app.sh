@@ -1,2 +1,2 @@
 #!/bin/sh
-echo "OldSchool GmbH –  automatischer Build scheint erfolgreich! (Florian S.)"
+echo "OldSchool GmbH –  automatischer Build erfolgreich! (Florian S.)"
